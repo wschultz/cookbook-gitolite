@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs gitolite
+Installs gitolite "g3"
 
 Requirements
 ============
@@ -20,14 +20,14 @@ Recipes
 
 ## default
 
-Installs gitolite 
+Installs gitolite "g3" 
 
 Usage
 =====
 
     include_recipe "gitolite"
 
-This installs gitolite just as David Ruans cookbook did, updated it to work with the new version of gitolite.
+This installs gitolite just as David Ruans cookbook did, updated it to work with the g3 version of gitolite.
 
 License and Author
 ==================
