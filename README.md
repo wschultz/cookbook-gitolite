@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs gitolite "g3"
+Installs gitolite "g3", still a work in progress.
 
 Requirements
 ============
