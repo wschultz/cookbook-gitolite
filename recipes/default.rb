@@ -4,7 +4,7 @@
 #
 # Copyright 2012, Wil Schultz
 #
-
+ 
 include_recipe "git::default"
 
 githost = node['hostname']

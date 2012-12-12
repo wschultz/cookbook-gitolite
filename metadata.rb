@@ -8,4 +8,4 @@ version          "1.1.1"
 %w{ git }.each do |cb|
   depends cb
 end
-
+ 
