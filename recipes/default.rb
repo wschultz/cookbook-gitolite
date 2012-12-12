@@ -4,9 +4,8 @@
 #
 # Copyright 2012, Wil Schultz
 #
- 
-include_recipe "git::default"
 
+include_recipe "git::default"
 githost = node['hostname']
 
 user "#{node[:gitolite][:admin_name]}" do
@@ -52,7 +51,6 @@ execute "./install -ln" do
   group "#{node[:gitolite][:admin_name]}"
   environment ({"HOME" => "#{node[:gitolite][:install_dir]}"})
   cwd "#{node[:gitolite][:install_dir]}"
-  #not_if {File.exists?("#{node[:gitolite][:install_dir]}/bin/gitolite") }
   creates "#{node[:gitolite][:install_dir]}/bin/gitolite"
 end
 
@@ -61,7 +59,7 @@ execute "bin/gitolite setup -pk #{node[:gitolite][:admin_home]}/.ssh/id_rsa.pub"
   group "#{node[:gitolite][:admin_name]}"
   environment ({"HOME" => "#{node[:gitolite][:admin_home]}", "USER" => "#{node[:gitolite][:admin_name]}"})
   cwd "#{node[:gitolite][:install_dir]}"
-  not_if {File.exist? "#{node[:gitolite][:admin_home]}/.ssh/authorized_keys"}
+  creates "#{node[:gitolite][:admin_home]}/.ssh/authorized_keys"
 end
 
 execute "echo 'StrictHostKeyChecking no' > #{node[:gitolite][:admin_home]}/.ssh/config" do
@@ -69,14 +67,23 @@ execute "echo 'StrictHostKeyChecking no' > #{node[:gitolite][:admin_home]}/.ssh/
   group "#{node[:gitolite][:admin_name]}"
   environment ({"HOME" => "#{node[:gitolite][:admin_home]}", "USER" => "#{node[:gitolite][:admin_name]}"})
   cwd "#{node[:gitolite][:admin_home]}"
-  not_if {File.exist? "#{node[:gitolite][:admin_home]}/.ssh/config"}
+  creates "#{node[:gitolite][:admin_home]}/.ssh/config"
 end
 
-git "#{node[:gitolite][:admin_home]}/gitolite-admin" do
-  repository "git@#{githost}:gitolite-admin"
-  reference "master"
-  action :sync
+# This doesn't work as expected... supplimented with an exec below.
+#git "#{node[:gitolite][:admin_home]}/gitolite-admin" do
+#  repository "git@#{githost}:gitolite-admin"
+#  reference "master"
+#  action :sync
+#  remote "origin"
+#  user "#{node[:gitolite][:admin_name]}"
+#  group "#{node[:gitolite][:admin_name]}"
+#end
+
+execute "git clone git@#{githost}:gitolite-admin" do
   user "#{node[:gitolite][:admin_name]}"
   group "#{node[:gitolite][:admin_name]}"
+  cwd "#{node[:gitolite][:admin_home]}"
+  creates "#{node[:gitolite][:admin_home]}/gitolite-admin"
 end
 
