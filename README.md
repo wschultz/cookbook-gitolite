@@ -4,6 +4,7 @@ Description
 Installs gitolite3 "g3".
 
 This will grab gitolite from the repository, install it, and set it up with a local user as admin. In the default configuration this would mean that you log into the box via any typical means and then sudo into the 'git' user. Then you would make changes inside the ~/gitolite-admin directory, and git push those changes.
+=======
 
 Requirements
 ============
@@ -28,8 +29,6 @@ Usage
 =====
 
     include_recipe "gitolite"
-
-This installs gitolite just as David Ruans cookbook did, updated it to work with the g3 version of gitolite.
 
 License and Author
 ==================
