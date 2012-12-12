@@ -64,6 +64,14 @@ execute "bin/gitolite setup -pk #{node[:gitolite][:admin_home]}/.ssh/id_rsa.pub"
   not_if {File.exist? "#{node[:gitolite][:admin_home]}/.ssh/authorized_keys"}
 end
 
+execute "echo 'StrictHostKeyChecking no' > #{node[:gitolite][:admin_home]}/.ssh/config" do
+  user "#{node[:gitolite][:admin_name]}"
+  group "#{node[:gitolite][:admin_name]}"
+  environment ({"HOME" => "#{node[:gitolite][:admin_home]}", "USER" => "#{node[:gitolite][:admin_name]}"})
+  cwd "#{node[:gitolite][:admin_home]}"
+  not_if {File.exist? "#{node[:gitolite][:admin_home]}/.ssh/config"}
+end
+
 git "#{node[:gitolite][:admin_home]}/gitolite-admin" do
   repository "git@#{githost}:gitolite-admin"
   reference "master"
