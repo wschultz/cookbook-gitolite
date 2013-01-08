@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs gitolite, and optionally adds a daily rsync and weekly tar.gz backup to a nice backup location.
+Installs gitolite, and optionally adds a daily rsync and weekly tar.gz (python) backup to a nice backup location.
 
 Requirements
 ============
