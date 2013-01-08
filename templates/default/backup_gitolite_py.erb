@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+import os, tarfile, time
+
+def backup_git():
+    """ Edit the sourcedir and destination prefix, the date and tgz will automatically be added """
+    sourcedir = ('<%= node[:gitolite][:admin_home] %>/')
+    destdir = ('<%= node[:gitolite][:backup_dir] %>/weekly/')
+    dest_prefix = ('<%= node[:gitolite][:admin_name] %>')
+
+    filestamp = time.strftime('%Y-%m-%d')
+    destfile = (destdir + dest_prefix + ('.' + filestamp + '.tar.gz'))
+
+    now = time.time()
+
+    """ Simply tgz things up here """
+
+    tarFile = tarfile.open(destfile, mode = 'w:gz')
+    tarFile.add(sourcedir)
+    tarFile.close()   
+
+    """ Clean up things that are 30 days or older """
+    for files in os.listdir(destdir):
+        file = os.path.join(destdir, files)
+        if os.stat(file).st_mtime < now - 2592000:
+            if os.path.isfile(file):
+                os.remove(file)
+
+if __name__ == '__main__':
+    backup_git()
+

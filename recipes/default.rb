@@ -1,4 +1,4 @@
-#
+# 
 # Cookbook Name:: gitolite
 # Recipe:: default
 #
@@ -76,6 +76,16 @@ execute "echo 'StrictHostKeyChecking no' > #{admin_home}/.ssh/config" do
   cwd "#{admin_home}"
   creates "#{admin_home}/.ssh/config"
 end
+
+# This doesn't work as expected... supplimented with an exec below.
+#git "#{admin_home}/gitolite-admin" do
+#  repository "git@#{githost}:gitolite-admin"
+#  reference "master"
+#  action :sync
+#  remote "origin"
+#  user "#{admin_name}"
+#  group "#{admin_name}"
+#end
 
 execute "git clone git@#{githost}:gitolite-admin" do
   user "#{admin_name}"

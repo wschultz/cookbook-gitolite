@@ -1,8 +1,7 @@
 Description
 ===========
- 
-Installs gitolite3 "g3".
-This will grab gitolite from the repository, install it, and set it up with a local user as admin. In the default configuration this would mean that you log into the box via any typical means and then sudo into the 'git' user. Then you would make changes inside the ~/gitolite-admin directory, and git push those changes.
+
+Installs gitolite, and optionally adds a daily rsync and weekly tar.gz backup to a nice backup location.
 
 Requirements
 ============
@@ -21,12 +20,37 @@ Recipes
 
 ## default
 
-Installs gitolite "g3" 
+Installs gitolite, and optionally adds a daily rsync and weekly tar.gz backup to a nice backup location. 
 
 Usage
 =====
 
     include_recipe "gitolite"
+    include_recipe "gitolite::backup"
+
+    Or if you'd like to use a role, as I do:
+
+    {
+      "name": "gitolite",
+      "default_attributes": {
+      },
+      "json_class": "Chef::Role",
+      "env_run_lists": {
+      },
+      "run_list": [
+        "recipe[gitolite]",
+        "recipe[gitolite::backup]"
+      ],
+      "description": "This is gitolite role!",
+      "chef_type": "role",
+      "override_attributes": {
+        "gitolite": {
+          "backup_device": "nfs_server:/exports/backups/git"
+        }
+      }
+    }
+
+
 
 License and Author
 ==================
